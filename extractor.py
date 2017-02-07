@@ -14,7 +14,7 @@ usedkw = []
 #==== lista de operadores usados ==========================================
 usedOperators = []
 #==========================================================================
-print caminhos[0]+' ...\n'
+
 # loop pela lista de arquivos da pasta ====================================
 for arq in pyCodes:
 	# ===== lista de palavras reservadas ========
@@ -76,10 +76,19 @@ for arq in pyCodes:
 	#fecha o arquivo depois de verificar por completo ====================================
 	file.close()
 	#=====================================================================================
-
+'''
 print '=================\nUsed Keywords:\n================='
 for item in usedkw:
 	print item
 print '\n=================\nUsed Operators:\n================='
 for item in usedOperators:
 	print item
+'''
+
+relatorio = open('relatorio.txt', 'w')
+relatorio.write(caminhos[0]+' ...\n'+'=================\nUsed Keywords:\n=================\n')
+for item in usedkw:
+	relatorio.write(item+'\n')
+relatorio.write('\n=================\nUsed Operators:\n=================\n')
+for item in usedOperators:
+	relatorio.write(item+'\n')
