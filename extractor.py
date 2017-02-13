@@ -25,7 +25,7 @@ for arq in pyCodes:
 
 	for item in file.readlines():
 		#==============================nao considera linhas comentadas============================
-		if len(item) >= 2:
+		if len(item) >= 3:
 			if (item[0] == '#') or (item[1] == '#') or (item[2] == '#'):
 				pass
 			#=====================================================================================
