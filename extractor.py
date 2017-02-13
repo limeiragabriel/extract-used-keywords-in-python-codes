@@ -1,9 +1,8 @@
 import keyword, os
 
-caminhos = [os.path.join('codes', nome) for nome in os.listdir('codes')]
+caminhos = [os.path.join('..', nome) for nome in os.listdir('..')]
 arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
 pyCodes = [arq for arq in arquivos if arq.lower().endswith(".py")]
-
 
 # lista de operadores =====================================================
 operators = ['+','-','*','/','//','**','%','>','>=','<','<=','==','!=']
@@ -15,6 +14,7 @@ usedkw = []
 usedOperators = []
 #==========================================================================
 
+comentario = False
 # loop pela lista de arquivos da pasta ====================================
 for arq in pyCodes:
 	# ===== lista de palavras reservadas ========
@@ -24,14 +24,21 @@ for arq in pyCodes:
 	#=== loop pelo conteudo do arquivo ===
 
 	for item in file.readlines():
-
 		#==============================nao considera linhas comentadas============================
-		if len(item) >= 3:
+		if len(item) >= 2:
 			if (item[0] == '#') or (item[1] == '#') or (item[2] == '#'):
 				pass
 			#=====================================================================================
+			elif ((item.find('"""') >= 0) or (item.find("'''") >= 0)) and comentario == False:
+				comentario = True
+				pass
+
+			elif ((item.find('"""') >= 0) or (item.find("'''") >= 0)) and comentario == True:
+				comentario = False
+				pass
+
 			# se a linha nao for comentada:
-			else:
+			elif(comentario == False):
 				# checa palavra por palavra se ela existe no arquivo ====
 				for word in reserved:
 					# se a palavra ja foi encontrada remove da lista para evitar nova busca desnecessaria
@@ -76,17 +83,10 @@ for arq in pyCodes:
 	#fecha o arquivo depois de verificar por completo ====================================
 	file.close()
 	#=====================================================================================
-'''
-print '=================\nUsed Keywords:\n================='
-for item in usedkw:
-	print item
-print '\n=================\nUsed Operators:\n================='
-for item in usedOperators:
-	print item
-'''
 
 relatorio = open('relatorio.txt', 'w')
-relatorio.write(caminhos[0]+' ...\n'+'=================\nUsed Keywords:\n=================\n')
+
+relatorio.write('\n'+'=================\nUsed Keywords:\n=================\n')
 for item in usedkw:
 	relatorio.write(item+'\n')
 relatorio.write('\n=================\nUsed Operators:\n=================\n')
